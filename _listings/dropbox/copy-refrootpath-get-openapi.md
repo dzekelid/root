@@ -23,6 +23,268 @@ produces:
 consumes:
 - application/json
 paths:
+  /files/{root}/{path}:
+    get:
+      summary: Downloads a file.
+      description: |-
+        Downloads a file.
+
+        This method also supports [HTTP Range Retrieval Requests](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2)
+        to allow retrieving partial file contents.
+      operationId: downloads-a-filethis-method-also-supports-http-range-retrieval-requestshttpwwww3orgprotocolsrfc2616r
+      x-api-path-slug: filesrootpath-get
+      parameters:
+      - in: path
+        name: path
+        description: The path to the file you want to retrieve
+      - in: query
+        name: rev
+        description: The revision of the file to retrieve
+      - in: path
+        name: root
+        description: 'Root folder: `auto` - automatically determines the appropriate
+          root folder using your apps permissionlevel (recommended); `sandbox` - the
+          codename for app folder level; `dropbox` - full dropbox access'
+      responses:
+        200:
+          description: OK
+      tags:
+      - Storage
+      - Documents
+      - Files
+      - Root
+      - Path
+  /files_put/{root}/{path}:
+    post:
+      summary: Uploads a file using PUT semantics.
+      description: |-
+        Uploads a file using PUT semantics.
+
+        The preferred HTTP method for this call is **PUT**. For compatibility with browser environments, the **POST**
+        HTTP method is also recognized.
+
+        **Note:** Providing a `Content-Length` header set to the size of the uploaded file is required so that the
+        server can verify that it has received the entire file contents.
+
+        **Note:** `/files_put` has a maximum file size limit of 150 MB and does not support uploads with chunked
+        encoding. To upload larger files, use [/chunked_upload](https://www.dropbox.com/developers/core/docs#chunked-upload)
+        instead.
+      operationId: uploads-a-file-using-put-semanticsthe-preferred-http-method-for-this-call-is-put-for-compatibility-w
+      x-api-path-slug: files-putrootpath-post
+      parameters:
+      - in: query
+        name: autorename
+        description: This value, either `true` (default) or `false`, determines what
+          happens when there is a conflict
+      - in: body
+        name: file_content
+        description: The file contents to be uploaded
+        schema:
+          $ref: '#/definitions/holder'
+      - in: query
+        name: locale
+        description: The metadata returned on successful upload will have its `size`
+          field translated based on the given locale
+      - in: query
+        name: overwrite
+        description: This value, either `true` (default) or `false`, determines whether
+          an existing file will be overwrittenby this upload
+      - in: query
+        name: parent_rev
+        description: If present, this parameter specifies the revision of the file
+          youre editing
+      - in: path
+        name: path
+        description: The full path to the file you want to write to
+      - in: path
+        name: root
+        description: 'Root folder: `auto` - automatically determines the appropriate
+          root folder using your apps permissionlevel (recommended); `sandbox` - the
+          codename for app folder level; `dropbox` - full dropbox access'
+      responses:
+        200:
+          description: OK
+      tags:
+      - Storage
+      - Documents
+      - Files
+      - Put
+      - Root
+      - Path
+    put:
+      summary: Uploads a file using PUT semantics.
+      description: |-
+        Uploads a file using PUT semantics.
+
+        The preferred HTTP method for this call is **PUT**. For compatibility with browser environments, the **POST**
+        HTTP method is also recognized.
+
+        **Note:** Providing a `Content-Length` header set to the size of the uploaded file is required so that the
+        server can verify that it has received the entire file contents.
+
+        **Note:** `/files_put` has a maximum file size limit of 150 MB and does not support uploads with chunked
+        encoding. To upload larger files, use [/chunked_upload](https://www.dropbox.com/developers/core/docs#chunked-upload)
+        instead.
+      operationId: uploads-a-file-using-put-semanticsthe-preferred-http-method-for-this-call-is-put-for-compatibility-w
+      x-api-path-slug: files-putrootpath-put
+      parameters:
+      - in: query
+        name: autorename
+        description: This value, either `true` (default) or `false`, determines what
+          happens when there is a conflict
+      - in: body
+        name: file_content
+        description: The file contents to be uploaded
+        schema:
+          $ref: '#/definitions/holder'
+      - in: query
+        name: locale
+        description: The metadata returned on successful upload will have its `size`
+          field translated based on the given locale
+      - in: query
+        name: overwrite
+        description: This value, either `true` (default) or `false`, determines whether
+          an existing file will be overwrittenby this upload
+      - in: query
+        name: parent_rev
+        description: If present, this parameter specifies the revision of the file
+          youre editing
+      - in: path
+        name: path
+        description: The full path to the file you want to write to
+      - in: path
+        name: root
+        description: 'Root folder: `auto` - automatically determines the appropriate
+          root folder using your apps permissionlevel (recommended); `sandbox` - the
+          codename for app folder level; `dropbox` - full dropbox access'
+      responses:
+        200:
+          description: OK
+      tags:
+      - Storage
+      - Documents
+      - Files
+      - Put
+      - Root
+      - Path
+  /thumbnails/{root}/{path}:
+    get:
+      summary: Gets a thumbnail for an image.
+      description: |-
+        Gets a thumbnail for an image.
+
+        This method currently supports files with the following file extensions: .jpg, .jpeg, .png, .tiff, .tif, .gif, .bmp
+
+        Photos that are larger than 20MB in size won't be converted to a thumbnail.
+      operationId: gets-a-thumbnail-for-an-imagethis-method-currently-supports-files-with-the-following-file-extensions
+      x-api-path-slug: thumbnailsrootpath-get
+      parameters:
+      - in: query
+        name: format
+        description: For images that are photos, `jpeg` (default) should be preferred,
+          while `png` is better for screenshots and digital art
+      - in: path
+        name: path
+        description: The path to the image file you want to thumbnail
+      - in: path
+        name: root
+        description: 'Root folder: `auto` - automatically determines the appropriate
+          root folder using your apps permissionlevel (recommended); `sandbox` - the
+          codename for app folder level; `dropbox` - full dropbox access'
+      - in: query
+        name: size
+        description: Default size is `s`
+      responses:
+        200:
+          description: OK
+      tags:
+      - Storage
+      - Documents
+      - Thumbnails
+      - Root
+      - Path
+  /previews/{root}/{path}:
+    get:
+      summary: Gets a preview for a file.
+      description: |-
+        Gets a preview for a file.
+
+        Previews are only generated for the files with the following extensions: .doc, .docx, .docm, .ppt, .pps,
+        .ppsx, .ppsm, .pptx, .pptm, .xls, .xlsx, .xlsm, .rtf
+      operationId: gets-a-preview-for-a-filepreviews-are-only-generated-for-the-files-with-the-following-extensions-doc
+      x-api-path-slug: previewsrootpath-get
+      parameters:
+      - in: path
+        name: path
+        description: The absolute path to the file you want to preview
+      - in: query
+        name: rev
+        description: The revision of the file to retrieve
+      - in: path
+        name: root
+        description: 'Root folder: `auto` - automatically determines the appropriate
+          root folder using your apps permissionlevel (recommended); `sandbox` - the
+          codename for app folder level; `dropbox` - full dropbox access'
+      responses:
+        200:
+          description: OK
+      tags:
+      - Storage
+      - Documents
+      - Previews
+      - Root
+      - Path
+  /commit_chunked_upload/{root}/{path}:
+    post:
+      summary: Completes an upload initiated by the chunked upload method.
+      description: |-
+        Completes an upload initiated by the `/chunked_upload` method. Saves a file uploaded via `/chunked_upload` to
+        a user's Dropbox.
+
+        `/commit_chunked_upload` is similar to `/files_put`. The main difference is that while `/files_put` takes the
+        file contents in the request body, `/commit_chunked_upload` takes a parameter `upload_id`, which is obtained
+        when the file contents are uploaded via `/chunked_upload`.
+      operationId: completes-an-upload-initiated-by-the-chunked-upload-method-saves-a-file-uploaded-via-chunked-upload-
+      x-api-path-slug: commit-chunked-uploadrootpath-post
+      parameters:
+      - in: query
+        name: autorename
+        description: This value, either `true` (default) or `false`, determines what
+          happens when there is a conflict
+      - in: query
+        name: locale
+        description: The metadata returned on successful upload will have its `size`
+          field translated based on the given locale
+      - in: query
+        name: overwrite
+        description: This value, either `true` (default) or `false`, determines whether
+          an existing file will be overwritten bythis upload
+      - in: query
+        name: parent_rev
+        description: If present, this parameter specifies the revision of the file
+          youre editing
+      - in: path
+        name: path
+        description: The full path to the file you want to write to
+      - in: path
+        name: root
+        description: 'Root folder: `auto` - automatically determines the appropriate
+          root folder using your apps permissionlevel (recommended); `sandbox` - the
+          codename for app folder level; `dropbox` - full dropbox access'
+      - in: query
+        name: upload_id
+        description: Used to identify the chunked upload session youd like to commit
+      responses:
+        200:
+          description: OK
+      tags:
+      - Storage
+      - Documents
+      - Commit
+      - Chunked
+      - Upload
+      - Root
+      - Path
   /metadata/{root}/{path}:
     get:
       summary: Retrieves file and folder metadata.
